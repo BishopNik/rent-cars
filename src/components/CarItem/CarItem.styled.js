@@ -25,16 +25,21 @@ export const TitleContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	gap: 4px;
 	margin-bottom: 8px;
 	padding-right: 10px;
 `;
 
 export const TitleCar = styled.p`
+	width: fit-content;
+	max-width: 220px;
 	margin: 0;
 	padding: 0;
 	font-size: 16px;
 	font-weight: 500;
 	line-height: 24px;
+	white-space: nowrap;
+	overflow: scroll;
 `;
 
 export const TitleCarBlue = styled.span`
@@ -45,23 +50,31 @@ export const CarAboutContainer = styled.div`
 	padding-right: 10px;
 `;
 
-export const CarAbout = styled.ul`
+export const CarAbout = styled.div`
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
 	row-gap: 4px;
 	margin: 0 0 28px 0;
 	padding: 0;
-	list-style: none;
 	color: rgba(18, 20, 23, 0.5);
 	font-size: 12px;
 	font-weight: 400;
 	line-height: 18px;
 `;
 
-export const CarAboutItem = styled.li`
-	max-width: 150px;
+export const CarAboutRow = styled.ul`
+	display: flex;
+	align-items: center;
+	flex-wrap: nowrap;
+	margin: 0;
+	padding: 0;
+	list-style: none;
 	overflow: hidden;
+`;
+
+export const CarAboutItem = styled.li`
+	max-width: 135px;
 	white-space: nowrap;
 `;
 

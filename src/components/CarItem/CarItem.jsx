@@ -10,6 +10,7 @@ import {
 	TitleCarBlue,
 	TitleContainer,
 	CarAbout,
+	CarAboutRow,
 	CarAboutContainer,
 	CarAboutItem,
 	Separator,
@@ -41,28 +42,32 @@ export const CarItem = ({ carInfo }) => {
 			</TitleContainer>
 			<CarAboutContainer>
 				<CarAbout>
-					<CarAboutItem>
-						{address[1]}
-						<Separator />
-					</CarAboutItem>
-					<CarAboutItem>
-						{address[2]}
-						<Separator />
-					</CarAboutItem>
-					<CarAboutItem>
-						{carInfo.rentalCompany}
-						<Separator />
-					</CarAboutItem>
-					<CarAboutItem>{carInfo.type}</CarAboutItem>
-					<CarAboutItem>
-						{carInfo.model}
-						<Separator />
-					</CarAboutItem>
-					<CarAboutItem>
-						{carInfo.mileage}
-						<Separator />
-					</CarAboutItem>
-					<CarAboutItem>{carInfo.functionalities[0]}</CarAboutItem>
+					<CarAboutRow>
+						<CarAboutItem>
+							{address[1]}
+							<Separator />
+						</CarAboutItem>
+						<CarAboutItem>
+							{address[2]}
+							<Separator />
+						</CarAboutItem>
+						<CarAboutItem>{carInfo.rentalCompany}</CarAboutItem>
+					</CarAboutRow>
+					<CarAboutRow>
+						<CarAboutItem>
+							{carInfo.type}
+							<Separator />
+						</CarAboutItem>
+						<CarAboutItem>
+							{carInfo.model}
+							<Separator />
+						</CarAboutItem>
+						<CarAboutItem>
+							{carInfo.mileage}
+							<Separator />
+						</CarAboutItem>
+						<CarAboutItem>{carInfo.functionalities[0]}</CarAboutItem>
+					</CarAboutRow>
 				</CarAbout>
 			</CarAboutContainer>
 			<ButtonLearnMore>Learn more</ButtonLearnMore>

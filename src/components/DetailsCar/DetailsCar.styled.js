@@ -12,8 +12,7 @@ export const ImgBox = styled.div`
 	height: 248px;
 	margin-bottom: 14px;
 	border-radius: 14px;
-	background: rgb(243, 243, 242);
-	background: ${({ src }) => `url(${src})`};
+	background: ${({ src }) => (src ? `url(${src})` : 'rgb(243, 243, 242)')};
 	background-position: center;
 	background-size: cover;
 `;

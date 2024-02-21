@@ -3,8 +3,9 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+	margin-left: auto;
+	margin-right: auto;
 	padding: 150px 128px;
-	width: fit-content;
 `;
 
 export const ContainerItems = styled.div`
@@ -12,5 +13,7 @@ export const ContainerItems = styled.div`
 	flex-wrap: wrap;
 	row-gap: 50px;
 	column-gap: 29px;
-	justify-content: center;
+	width: 1185px;
+	margin-right: auto;
+	margin-left: auto;
 `;
