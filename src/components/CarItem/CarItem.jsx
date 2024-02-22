@@ -1,6 +1,6 @@
 /** @format */
 
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { MainContext } from 'components/Helpers';
 import {
 	Container,
@@ -17,21 +17,39 @@ import {
 	LikeButton,
 	IconLike,
 } from './CarItem.styled';
+import { useDispatch } from 'react-redux';
+import { useFavorites } from 'hooks';
+import { addFavorite, removeFavorite } from 'redux/favorites/favotiresSlice';
 
 export const CarItem = ({ carInfo }) => {
+	const dispatch = useDispatch();
 	const { setIsOpen, setItem } = useContext(MainContext);
-	const liked = 'false';
+	const { allFavoritesCars } = useFavorites();
+	const [liked, setLiked] = useState(
+		allFavoritesCars.filter(item => item.id === carInfo.id).length > 0
+	);
+
 	const address = carInfo?.address.split(', ');
 
+	const addFavoriteCar = item => {
+		if (liked) {
+			dispatch(removeFavorite(item));
+			setLiked(false);
+		} else {
+			dispatch(addFavorite(item));
+			setLiked(true);
+		}
+	};
+
+	const handlerOpenModal = () => {
+		setItem(carInfo);
+		setIsOpen(true);
+	};
+
 	return (
-		<Container
-			onClick={() => {
-				setItem(carInfo);
-				setIsOpen(true);
-			}}
-		>
-			<LikeButton onClick={() => console.log('run')}>
-				<IconLike name='like-car' liked={liked} />
+		<Container>
+			<LikeButton onClick={() => addFavoriteCar(carInfo)}>
+				<IconLike name='like-car' liked={liked.toString()} />
 			</LikeButton>
 			<ImgContainer src={carInfo.img} />
 			<TitleContainer>
@@ -70,7 +88,7 @@ export const CarItem = ({ carInfo }) => {
 					</CarAboutRow>
 				</CarAbout>
 			</CarAboutContainer>
-			<ButtonLearnMore>Learn more</ButtonLearnMore>
+			<ButtonLearnMore onClick={handlerOpenModal}>Learn more</ButtonLearnMore>
 		</Container>
 	);
 };

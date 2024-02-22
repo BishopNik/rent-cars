@@ -1,64 +1,99 @@
 /** @format */
 
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-
-const validationSchema = Yup.object().shape({
-	text: Yup.string().required('Required'),
-	price: Yup.number().required('Required'),
-	number1: Yup.number().required('Required'),
-	number2: Yup.number().required('Required'),
-});
+import { Formik } from 'formik';
+import {
+	FormStyled,
+	Label,
+	SearchBox,
+	ButtonSearch,
+	Model,
+	PriceInHour,
+	From,
+	To,
+	IconSelect,
+	DivIcon,
+} from './Search.styled';
+import { useCars } from 'hooks';
+import { searchMinMax, searchModel } from 'components/Helpers';
 
 const initialValues = {
-	text: '',
+	make: '',
 	price: '',
-	number1: '',
-	number2: '',
+	from: '',
+	to: '',
 };
 
-export const Search = () => (
-	<Formik
-		initialValues={initialValues}
-		validationSchema={validationSchema}
-		onSubmit={(values, { setSubmitting }) => {
-			setTimeout(() => {
-				alert(JSON.stringify(values, null, 2));
+export const Search = ({ onSearch }) => {
+	const { allCars } = useCars();
+	const { start, finish } = searchMinMax(allCars);
+
+	return (
+		<Formik
+			initialValues={initialValues}
+			onSubmit={(values, { setSubmitting }) => {
+				onSearch(values);
 				setSubmitting(false);
-			}, 400);
-		}}
-	>
-		{({ isSubmitting }) => (
-			<Form>
-				<div>
-					<label htmlFor='text'>Text</label>
-					<Field type='text' name='text' />
-					<ErrorMessage name='text' component='div' />
-				</div>
+			}}
+		>
+			{({ isSubmitting, handleChange, values }) => (
+				<FormStyled>
+					<SearchBox>
+						<Label htmlFor='make'>Car brand</Label>
+						<DivIcon>
+							<Model
+								as='select'
+								name='make'
+								value={values.make}
+								onChange={handleChange}
+							>
+								<option value=''>Enter the text</option>
+								{searchModel(allCars).map(car => (
+									<option key={car} value={car}>
+										{car}
+									</option>
+								))}
+							</Model>
+							<IconSelect name='chevron-down' />
+						</DivIcon>
+					</SearchBox>
 
-				<div>
-					<label htmlFor='price'>Price</label>
-					<Field type='number' name='price' />
-					<ErrorMessage name='price' component='div' />
-				</div>
+					<SearchBox>
+						<Label htmlFor='price'>Price/ 1 hour</Label>
+						<DivIcon>
+							<PriceInHour
+								as='select'
+								name='price'
+								value={values.price}
+								onChange={handleChange}
+							>
+								<option value=''>To $</option>
+								{Array.from({ length: finish - start }, (_, step) => (
+									<option key={step} value={(step + start) * 10}>
+										To {(step + start) * 10}
+									</option>
+								))}
+							</PriceInHour>
+							<IconSelect name='chevron-down' />
+						</DivIcon>
+					</SearchBox>
 
-				<div>
-					<label htmlFor='number1'>Number 1</label>
-					<Field type='number' name='number1' />
-					<ErrorMessage name='number1' component='div' />
-				</div>
+					<SearchBox>
+						<Label htmlFor='from'>Сar mileage / km</Label>
+						<div>
+							<From type='text' name='from' placeholder='From' />
+							<To type='text' name='to' placeholder='To' />
+						</div>
+					</SearchBox>
 
-				<div>
-					<label htmlFor='number2'>Number 2</label>
-					<Field type='number' name='number2' />
-					<ErrorMessage name='number2' component='div' />
-				</div>
-
-				<button type='submit' disabled={isSubmitting}>
-					Submit
-				</button>
-			</Form>
-		)}
-	</Formik>
-);
+					<ButtonSearch type='submit' disabled={isSubmitting}>
+						Submit
+					</ButtonSearch>
+					<ButtonSearch type='reset' onClick={() => onSearch(initialValues)}>
+						X
+					</ButtonSearch>
+				</FormStyled>
+			)}
+		</Formik>
+	);
+};

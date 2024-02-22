@@ -12,19 +12,21 @@ import {
 } from 'redux-persist';
 import { configureStore } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
-import { authReducer } from './auth/authSlice';
+import { carsReducer } from './cars/carsSlice';
+import { favoritesReducer } from './favorites/favotiresSlice';
 
-const persistConfigAuth = {
-	key: 'auth',
+const persistConfig = {
+	key: 'favorites',
 	storage,
-	whitelist: ['token'],
+	whitelist: ['items'],
 };
 
-const tokenPersistedReducer = persistReducer(persistConfigAuth, authReducer);
+const persistedReducer = persistReducer(persistConfig, favoritesReducer);
 
 export const store = configureStore({
 	reducer: {
-		auth: tokenPersistedReducer,
+		cars: carsReducer,
+		favorites: persistedReducer,
 	},
 	middleware: getDefaultMiddleware =>
 		getDefaultMiddleware({

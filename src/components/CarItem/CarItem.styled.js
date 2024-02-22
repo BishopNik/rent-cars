@@ -7,7 +7,6 @@ export const Container = styled.div`
 	position: relative;
 	width: 274px;
 	height: 426px;
-	cursor: pointer;
 `;
 
 export const ImgContainer = styled.div`
