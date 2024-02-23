@@ -9,7 +9,8 @@ export function searchMinMax(array) {
 	const price = new Set();
 
 	array.forEach(car => {
-		price.add(parseFloat(car.rentalPrice.replace('$', '')));
+		const priceNum = parseFloat(car.rentalPrice.replace('$', ''));
+		if (priceNum) price.add(price);
 	});
 
 	const priceArray = Array.from(price);

@@ -2,7 +2,7 @@
 
 import React, { useContext } from 'react';
 import { MainContext } from 'components/Helpers';
-import { Container, ContainerItems } from 'components/styled.component/Main.styled';
+import { Container, ContainerItems } from 'components/styled.component';
 import { DetailsCar } from 'components/DetailsCar';
 import { CarItem } from 'components/CarItem';
 import ModalWindow from 'components/Modal';

@@ -15,7 +15,7 @@ export const ListLink = styled.ul`
 
 export const LinkPage = styled.li`
 	color: rgb(18, 20, 23);
-	font-size: 26px;
-	font-weight: 600;
+	font-size: 28px;
+	font-weight: 700;
 	line-height: 24px;
 `;

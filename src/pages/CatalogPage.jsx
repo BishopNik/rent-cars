@@ -1,17 +1,22 @@
 /** @format */
 
-import React, { useContext, useState } from 'react';
+import axios from 'axios';
+import React, { useContext, useState, useEffect } from 'react';
 import { Search } from 'components/Search';
-import { Container, ContainerItems, ButtonLoadMore } from 'components/styled.component/Main.styled';
-import { MainContext } from 'components/Helpers';
+import { Container, ContainerItems, ButtonLoadMore } from 'components/styled.component';
+import { MainContext, toastError } from 'components/Helpers';
 import { CarItem } from 'components/CarItem';
 import { DetailsCar } from 'components/DetailsCar';
 import ModalWindow from 'components/Modal';
 import { useCars } from 'hooks';
+import { useDispatch } from 'react-redux';
+import { downloadCars } from 'redux/cars/operations';
+import { clearState } from 'redux/cars/carsSlice';
 
 function CatalogPage() {
+	const dispatch = useDispatch();
 	const { isOpen, setIsOpen, item } = useContext(MainContext);
-	const { allCars } = useCars();
+	const { allCars, isLoading, currentPage, totalItems } = useCars();
 	const [searchParams, setSearchParams] = useState({
 		make: '',
 		price: '',
@@ -19,11 +24,31 @@ function CatalogPage() {
 		to: '',
 	});
 
+	const { make, price, from, to } = searchParams || {};
+	const visibleButton = Math.floor(totalItems / 12) >= currentPage;
+
 	const handlerSearch = value => {
 		setSearchParams(value);
 	};
 
-	const { make, price, from, to } = searchParams;
+	const handlerFetchingCar = () => {
+		if (isLoading) {
+			toastError('Please waiting, fetching...');
+			return;
+		}
+		dispatch(downloadCars({ page: currentPage + 1 }));
+	};
+
+	useEffect(() => {
+		const cancelToken = axios.CancelToken.source();
+
+		dispatch(downloadCars(cancelToken.token));
+
+		return () => {
+			cancelToken.cancel('Сanceled by cleanup');
+			dispatch(clearState());
+		};
+	}, [dispatch]);
 
 	const filtredCars =
 		make !== '' || price !== '' || from !== '' || to !== ''
@@ -46,7 +71,11 @@ function CatalogPage() {
 						<CarItem key={i} carInfo={item} />
 					))}
 				</ContainerItems>
-				<ButtonLoadMore type='button'>Load more</ButtonLoadMore>
+				{visibleButton && totalItems > 12 && (
+					<ButtonLoadMore type='button' onClick={handlerFetchingCar}>
+						Load more
+					</ButtonLoadMore>
+				)}
 			</Container>
 			<ModalWindow isOpen={isOpen} onRequestClose={() => setIsOpen(false)}>
 				<DetailsCar carDetails={item} />
