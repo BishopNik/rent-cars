@@ -1,6 +1,5 @@
 /** @format */
 
-import axios from 'axios';
 import React, { useContext, useState, useEffect } from 'react';
 import { Search } from 'components/Search';
 import { Container, ContainerItems, ButtonLoadMore } from 'components/styled.component';
@@ -40,12 +39,10 @@ function CatalogPage() {
 	};
 
 	useEffect(() => {
-		const cancelToken = axios.CancelToken.source();
-
-		dispatch(downloadCars(cancelToken.token));
+		dispatch(clearState());
+		dispatch(downloadCars());
 
 		return () => {
-			cancelToken.cancel('Сanceled by cleanup');
 			dispatch(clearState());
 		};
 	}, [dispatch]);

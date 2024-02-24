@@ -33,7 +33,11 @@ const carsSlice = createSlice({
 				}
 				state.totalItems = countCars;
 				state.currentPage = state.currentPage + 1;
-				state.items = [...state.items, ...data];
+				const newData = data.filter(
+					newItem => !state.items.some(item => item._id === newItem._id)
+				);
+
+				state.items = [...state.items, ...newData];
 				state.isLoading = false;
 			})
 			.addCase(downloadCars.rejected, state => {
