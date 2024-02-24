@@ -26,7 +26,7 @@ export const CarItem = ({ carInfo }) => {
 	const { setIsOpen, setItem } = useContext(MainContext);
 	const { allFavoritesCars } = useFavorites();
 	const [liked, setLiked] = useState(
-		allFavoritesCars.filter(item => item.id === carInfo.id).length > 0
+		allFavoritesCars.filter(item => item._id === carInfo._id).length > 0
 	);
 
 	const address = carInfo?.address.split(', ');
