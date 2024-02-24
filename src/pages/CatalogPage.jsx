@@ -23,6 +23,7 @@ function CatalogPage() {
 
 	const handlerSearch = value => {
 		setSearchParams(value);
+		dispatch(clearState());
 		dispatch(
 			getCars({
 				page: 1,
