@@ -2,7 +2,12 @@
 
 import React, { useContext, useState, useEffect } from 'react';
 import { Search } from 'components/Search';
-import { Container, ContainerItems, ButtonLoadMore } from 'components/styled.component';
+import {
+	Container,
+	ContainerItems,
+	ButtonLoadMore,
+	ImgNotFound,
+} from 'components/styled.component';
 import { MainContext, toastError } from 'components/Helpers';
 import { CarItem } from 'components/CarItem';
 import { DetailsCar } from 'components/DetailsCar';
@@ -63,9 +68,14 @@ function CatalogPage() {
 			<Container>
 				<Search onSearch={handlerSearch} />
 				<ContainerItems>
-					{allCars.map((item, i) => (
-						<CarItem key={i} carInfo={item} />
-					))}
+					{allCars.length > 0 ? (
+						allCars.map((item, i) => <CarItem key={i} carInfo={item} />)
+					) : (
+						<ImgNotFound
+							src='https://cdn.dribbble.com/users/2382015/screenshots/6065978/no_result.gif'
+							alt='Not Found'
+						/>
+					)}
 				</ContainerItems>
 				{visibleButton && totalItems > 12 && (
 					<ButtonLoadMore type='button' onClick={handlerFetchingCar}>

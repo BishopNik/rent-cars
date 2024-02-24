@@ -86,3 +86,8 @@ export const IconLogo = styled(Icon)`
 	stroke: rgb(18, 20, 23);
 	fill: rgb(18, 20, 23);
 `;
+
+export const ImgNotFound = styled.img`
+	margin-left: auto;
+	margin-right: auto;
+`;
