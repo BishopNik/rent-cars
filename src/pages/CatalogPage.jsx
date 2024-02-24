@@ -70,12 +70,12 @@ function CatalogPage() {
 				<ContainerItems>
 					{allCars.length > 0 ? (
 						allCars.map((item, i) => <CarItem key={i} carInfo={item} />)
-					) : (
+					) : !isLoading ? (
 						<ImgNotFound
 							src='https://cdn.dribbble.com/users/2382015/screenshots/6065978/no_result.gif'
 							alt='Not Found'
 						/>
-					)}
+					) : null}
 				</ContainerItems>
 				{visibleButton && totalItems > 12 && (
 					<ButtonLoadMore type='button' onClick={handlerFetchingCar}>
