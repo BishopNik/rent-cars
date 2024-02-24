@@ -1,7 +1,7 @@
 /** @format */
 
 import { createSlice } from '@reduxjs/toolkit';
-import { downloadCars } from './operations';
+import { getCars } from './operations';
 
 const initialState = {
 	items: [],
@@ -22,16 +22,16 @@ const carsSlice = createSlice({
 	},
 	extraReducers: builder => {
 		builder
-			.addCase(downloadCars.pending, state => {
+			.addCase(getCars.pending, state => {
 				state.isLoading = true;
 			})
-			.addCase(downloadCars.fulfilled, (state, { payload }) => {
-				const { countCars, data } = payload;
+			.addCase(getCars.fulfilled, (state, { payload }) => {
+				const { totalCars, data } = payload;
 				if (!data.length) {
 					state.isLoading = false;
 					return;
 				}
-				state.totalItems = countCars;
+				state.totalItems = totalCars;
 				state.currentPage = state.currentPage + 1;
 				const newData = data.filter(
 					newItem => !state.items.some(item => item._id === newItem._id)
@@ -40,7 +40,7 @@ const carsSlice = createSlice({
 				state.items = [...state.items, ...newData];
 				state.isLoading = false;
 			})
-			.addCase(downloadCars.rejected, state => {
+			.addCase(getCars.rejected, state => {
 				state.isLoading = false;
 			});
 	},

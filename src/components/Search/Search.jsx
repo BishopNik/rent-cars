@@ -1,6 +1,6 @@
 /** @format */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Formik } from 'formik';
 import {
 	FormStyled,
@@ -14,10 +14,12 @@ import {
 	IconSelect,
 	DivIcon,
 } from './Search.styled';
-import { useCars } from 'hooks';
-import { searchMinMax, searchModel } from 'components/Helpers';
+import { useParams } from 'hooks';
+import { useDispatch } from 'react-redux';
+import { clearState } from 'redux/params/paramsSlice';
+import { getParams } from 'redux/params/operations';
 
-const initialValues = {
+export const initialValues = {
 	make: '',
 	price: '',
 	from: '',
@@ -25,8 +27,13 @@ const initialValues = {
 };
 
 export const Search = ({ onSearch }) => {
-	const { allCars } = useCars();
-	const { start, finish } = searchMinMax(allCars);
+	const dispatch = useDispatch();
+	const { makes, min, max } = useParams();
+
+	useEffect(() => {
+		dispatch(clearState());
+		dispatch(getParams());
+	}, [dispatch]);
 
 	return (
 		<Formik
@@ -48,7 +55,7 @@ export const Search = ({ onSearch }) => {
 								onChange={handleChange}
 							>
 								<option value=''>Enter the text</option>
-								{searchModel(allCars).map(car => (
+								{makes.map(car => (
 									<option key={car} value={car}>
 										{car}
 									</option>
@@ -68,9 +75,9 @@ export const Search = ({ onSearch }) => {
 								onChange={handleChange}
 							>
 								<option value=''>To $</option>
-								{Array.from({ length: finish - start }, (_, step) => (
-									<option key={step} value={(step + start) * 10}>
-										To {(step + start) * 10}
+								{Array.from({ length: max - min }, (_, step) => (
+									<option key={step} value={(step + min) * 10}>
+										To {(step + min) * 10}
 									</option>
 								))}
 							</PriceInHour>
