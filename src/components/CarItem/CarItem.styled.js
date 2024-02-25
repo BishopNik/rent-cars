@@ -3,7 +3,7 @@
 import styled from 'styled-components';
 import Icon from 'components/Icon';
 
-export const Container = styled.div`
+export const Container = styled.li`
 	position: relative;
 	width: 274px;
 	height: 426px;

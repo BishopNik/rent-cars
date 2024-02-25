@@ -13,14 +13,17 @@ export const Container = styled.div`
 	padding: 30px 128px 150px;
 `;
 
-export const ContainerItems = styled.div`
+export const ContainerItems = styled.ul`
 	display: flex;
 	flex-wrap: wrap;
 	row-gap: 50px;
 	column-gap: 29px;
 	width: 1185px;
+	margin: 0;
+	padding: 0;
 	margin-right: auto;
 	margin-left: auto;
+	list-style: none;
 `;
 
 export const ButtonLoadMore = styled.button`
