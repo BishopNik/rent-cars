@@ -1,6 +1,6 @@
 /** @format */
 
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { MainContext } from 'components/Helpers';
 import {
 	Container,
@@ -25,9 +25,7 @@ export const CarItem = ({ carInfo }) => {
 	const dispatch = useDispatch();
 	const { setIsOpen, setItem } = useContext(MainContext);
 	const { allFavoritesCars } = useFavorites();
-	const [liked, setLiked] = useState(
-		allFavoritesCars.filter(item => item._id === carInfo._id).length > 0
-	);
+	const [liked, setLiked] = useState(false);
 
 	const address = carInfo?.address.split(', ');
 
@@ -45,6 +43,10 @@ export const CarItem = ({ carInfo }) => {
 		setItem(carInfo);
 		setIsOpen(true);
 	};
+
+	useEffect(() => {
+		if (allFavoritesCars.filter(item => item._id === carInfo._id).length > 0) setLiked(true);
+	}, [allFavoritesCars, carInfo._id]);
 
 	return (
 		<Container>
