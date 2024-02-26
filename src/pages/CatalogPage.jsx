@@ -17,6 +17,7 @@ import { useDispatch } from 'react-redux';
 import { getCars } from 'redux/cars/operations';
 import { clearState } from 'redux/cars/carsSlice';
 import { initialValues } from 'components/Search';
+import Loader from 'components/Loader';
 
 function CatalogPage() {
 	const dispatch = useDispatch();
@@ -67,16 +68,20 @@ function CatalogPage() {
 		<>
 			<Container>
 				<Search onSearch={handlerSearch} />
-				<ContainerItems>
-					{allCars.length > 0 ? (
-						allCars.map((item, i) => <CarItem key={i} carInfo={item} />)
-					) : !isLoading ? (
-						<ImgNotFound
-							src='https://cdn.dribbble.com/users/2382015/screenshots/6065978/no_result.gif'
-							alt='Not Found'
-						/>
-					) : null}
-				</ContainerItems>
+				{isLoading && allCars.length === 0 ? (
+					<Loader />
+				) : (
+					<ContainerItems>
+						{allCars.length > 0 ? (
+							allCars.map((item, i) => <CarItem key={i} carInfo={item} />)
+						) : !isLoading ? (
+							<ImgNotFound
+								src='https://cdn.dribbble.com/users/2382015/screenshots/6065978/no_result.gif'
+								alt='Not Found'
+							/>
+						) : null}
+					</ContainerItems>
+				)}
 				{visibleButton && totalItems > 12 && (
 					<ButtonLoadMore type='button' onClick={handlerFetchingCar}>
 						Load more
